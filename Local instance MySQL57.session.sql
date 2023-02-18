@@ -1,0 +1,7 @@
+SHOW DATABASES;
+CREATE TABLE girls( ID INT);
+
+
+
+
+

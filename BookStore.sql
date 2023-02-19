@@ -77,21 +77,112 @@ VALUES
 (10, 'The Time Travelers Wife', 1001, 'Audrey Niffenegger');
  
 
- CREATE TABLE
+
+ CREATE TABLE stock(
+    store_id INT NOT NULL,
+    book_id INT NOT NULL,
+    quantity INT,
+    FOREIGN KEY (store_id) REFERENCES bookstore(store_id),
+    FOREIGN KEY (book_id) REFERENCES Books(book_id)
+ );
+
+INSERT INTO stock (store_id, book_id, quantity)
+VALUES
+  (1, 1, 1048),  (1, 2, 5482),  (2, 1, 2870),  (2, 3, 1235),  (1, 4, 7857), 
+  (3, 1, 415),   (3, 3, 172),   (3, 4, 1189),  (1, 3, 3583),  (2, 4, 600),
+  (1, 5, 200),   (2, 5, 578),   (3, 5, 113),   (1, 6, 1822),  (2, 6, 378), 
+  (3, 6, 252),   (1, 7, 400),   (2, 7, 689),   (3, 7, 858);
+
 
 /*SQL JOINS*/
 
-
-""
-""
-
-
-
-
-
+/*INNER JOIN*/
+SELECT c.category_name, b.Book_Name, b.author
+FROM categories AS c
+JOIN Books AS b
+ON c.category_id = b.category_id
+ORDER BY category_name;
 
 
+/*LEFT JOIN*/
+SELECT c.category_name, b.Book_Name, b.author
+FROM categories AS c
+LEFT JOIN Books AS b
+ON c.category_id = b.category_id
+ORDER BY category_name;
+
+
+/*RIGHT JOIN*/
+SELECT c.category_name, b.Book_Name, b.author
+FROM categories AS c
+RIGHT JOIN Books AS b
+ON c.category_id = b.category_id
+ORDER BY category_name;
+
+
+
+/*FULL OUTER JOIN*/
+/*MySQL does not support FULL JOIN, so you have to combine JOIN, UNION and LEFT JOIN to get an equivalent.
+ It gives the results of A union B. It returns all records from both tables.
+*/
+SELECT * FROM categories 
+LEFT JOIN Books ON categories.category_id = Books.book_id
+UNION
+SELECT * FROM categories 
+RIGHT JOIN Books ON categories.category_id = Books.book_id;
+
+
+/*DATA FILTERING*/
+SELECT Book_Name, Author FROM Books
+WHERE author = 'Nicholas Sparks' OR Book_Name = 'The Alchemist';
+
+
+SELECT store_name, county FROM bookstore
+WHERE county = 'Kisumu';
+
+
+SELECT store_name, county FROM bookstore
+WHERE county = 'Kilifi'
+AND store_name = 'Bookworms Haven';
+
+
+
+SELECT SUM(quantity) as TOTAL_STOCK
+FROM stock;
+
+
+
+SELECT MIN(quantity) as MIN_STOCK
+FROM stock;
+
+SELECT COUNT(quantity) as COUNT_STOCK
+FROM stock;
+
+
+/**DATA TRANSFORMATION */
+SELECT 
+    categories.category_name,
+    COUNT(books.book_id) AS total_books 
+FROM 
+    books 
+    JOIN categories ON books.category_id = categories.category_id 
+GROUP BY 
+    categories.category_name
+
+
+
+SELECT DISTINCT store_id, store_name
+FROM bookstore;
 
 
 
 
+
+SELECT *
+FROM stock
+WHERE stock_id IS NOT NULL AND book_id IS NOT NULL;
+
+
+/**DATA CLEANING*/
+
+ALTER TABLE BookStore MODIFY phone INT;

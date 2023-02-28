@@ -47,8 +47,64 @@ VALUES
 ('2016-03-01', 22403, 53473, 15),
 ('2016-03-01', 23965, 79722, 60);
 
+/*Insert additional data*/
+
+INSERT INTO Submissions (submission_date,submission_id, hacker_id, score )
+VALUES
+('2016-03-01', 30173, 36396, 70),
+('2016-03-02', 34928, 20703, 0),
+('2016-03-02', 38740, 15758, 60),
+('2016-03-02', 42769, 79722, 25),
+('2016-03-02', 44364, 79722, 60),
+('2016-03-03', 45440, 20703, 0),
+('2016-03-03', 49050, 36396, 70),
+('2016-03-03', 50273, 79722, 5),
+('2016-03-04', 50344, 20703, 0),
+('2016-03-04', 51360, 44065, 90),
+('2016-03-04', 54404, 53473, 65),
+('2016-03-04', 61533, 79722, 45),
+('2016-03-05', 72852, 20703, 0),
+('2016-03-05', 74546, 38289, 0),
+('2016-03-05', 76487, 62529, 0),
+('2016-03-05', 82439, 36396, 10),
+('2016-03-05', 90006, 36396, 40),
+('2016-03-06', 90404, 20703, 0);
+
+/*QUERIES AND SUB-QUERIES*/
+/*Write a query to print total number of unique hackers who made at least submission each day (starting on the first day of the contest)*/
+SELECT DATE(submission_date) AS submission_date,
+       COUNT(DISTINCT hacker_id) AS unique_hackers
+FROM submissions
+WHERE submission_date >= (SELECT MIN(submission_date) 
+                                 FROM submissions) -- starting on the first day of the contest
+GROUP BY submission_date
+
+/*For more understanding on the interpretation breakdown check it on the hackerrank description
+https://www.hackerrank.com/challenges/15-days-of-learning-sql/problem */
 
 
+/*NUMBER OF SUBMISSIONS BY EACH HACKER ON EACH DAY*/
+SELECT submission_date,
+       hacker_id,
+       COUNT(submission_id) AS num_of_submissions
+FROM submissions
+WHERE submission_date BETWEEN '2016-03-01' AND '2016-03-15'
+GROUP BY 1,2
+ORDER BY 1,2;
+
+
+/*Distinct submissions*/
+SELECT s.submission_date, h.hacker_id, h.name,s.score, 
+       COUNT (DISTINCT s.hacker_id) /*total number of unique hackers*/
+       FROM submissions AS s
+JOIN Hackers AS h
+ON s.hacker_id = h.hacker_id
+WHERE submission_date BETWEEN '2016-03-01' AND '2016-03-15'
+GROUP BY s.submission_date,h.hacker_id,s.score,h.name;
+
+
+
+/*CHAT GPT SOLUTION*/
 SELECT s.submission_date, s.score, s.hacker_id, h.name
 FROM Submissions AS s
 LEFT JOIN Hackers AS h

@@ -70,7 +70,20 @@ VALUES
 ('2016-03-05', 90006, 36396, 40),
 ('2016-03-06', 90404, 20703, 0);
 
+
 /*QUERIES AND SUB-QUERIES*/
+/*Union of the two tables*/
+SELECT s.submission_date, h.hacker_id, h.name
+FROM hackers AS h  
+LEFT JOIN submissions s
+ON h.hacker_id = s.hacker_id
+UNION
+SELECT s.submission_date, h.hacker_id, h.name
+FROM hackers AS h  
+RIGHT JOIN submissions s
+ON h.hacker_id = s.hacker_id
+
+
 /*Write a query to print total number of unique hackers who made at least submission each day (starting on the first day of the contest)*/
 SELECT DATE(submission_date) AS submission_date,
        COUNT(DISTINCT hacker_id) AS unique_hackers
@@ -82,6 +95,13 @@ GROUP BY submission_date
 /*For more understanding on the interpretation breakdown check it on the hackerrank description
 https://www.hackerrank.com/challenges/15-days-of-learning-sql/problem */
 
+/*alternatively*/
+
+SELECT DATE(submission_date),COUNT(DISTINCT hacker_id) AS hackers
+FROM  submissions 
+GROUP BY submission_date 
+HAVING 
+  COUNT(*) >= 1
 
 /*NUMBER OF SUBMISSIONS BY EACH HACKER ON EACH DAY*/
 SELECT submission_date,

@@ -1,0 +1,3 @@
+Week 4: Learning how to evaluate and understand business problems, how to collect and gather data, cleaning and processing data, and perform exploratory data analysis. 
+Tools of trade: Python, SQL, Excel. 
+Skills: Critical thinking,  problem solving skills and exploratory data analysis skills.  

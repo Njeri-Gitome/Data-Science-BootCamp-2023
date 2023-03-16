@@ -1,0 +1,3 @@
+Week 5: Machine learning model development, model evaluation and communicating model’s results.  
+Tools of Trade: Python 
+We will learn various machine learning and data science techniques.  
